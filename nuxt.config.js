@@ -32,14 +32,58 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    'http://localhost:7000': '/',
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/icenarc/login',
+            method: 'post',
+            propertyName:'token',
+            required: true
+          },  
+          user:{
+            url: '/icenarc/auth/user',
+            method: 'get',
+            propertyName: 'user'
+          },
+          logout: true
+        }
+      },
+    }
+  },
+
+
+  proxy: {
+    "/api": 'localhost:7000'
+  },
+
+  serverMiddleware: 
+  ['~/api/index.js'],
+
+  router: {
+    base: '/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extend (config, { isDev, isClient }) {
+
+       config.node= {
+          fs: 'empty'
+        }
+
+       // ....
+    }
+  },
 }
