@@ -48,6 +48,7 @@
         </div>
       </div>
       <div v-else>
+        
         <div id="login" class="col">
           <div class='counterCardLogin'>
                   <div class='cardBody'></div>
