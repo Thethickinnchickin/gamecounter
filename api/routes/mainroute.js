@@ -88,7 +88,7 @@ router.get('/points', async(req, res) => {
 
 //adding points 
 router.post('/addpoint', async(req, res) => {
-    let point = await Points.find().limit(1).exec();
+    let point = await Points.findById('6333dd079a929daad574d90c').exec();
     if(req.body.pointType === 'warzone') {
         point.warzone ++;
         await point.save();

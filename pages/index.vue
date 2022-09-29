@@ -1,106 +1,120 @@
 <template>
-  <div class="App">
-    <div v-if="$auth.$state.loggedIn">
-      <div class="App-header">
-        <div class='row'>
-          <div id="warzone" class='col'>
-            <div class='counterCard'>
-              <div class='cardBody'></div>
-                <div id="card-header">Warzone Victories</div>
-                <div id='body'>
-                  
-                  <div class="waviy">
-                    <p>Total</p>
-                    <span style='--i :1'>{{points.fallguys}}</span>
-                  </div>
 
-                  <div class="box-2">
-                    <div class="btn btn-two">
-                      <span>Add Dub</span>
+    
+    <div class="App">
+      <div v-if="$auth.$state.loggedIn">
+        <div class="App-header">
+          <div class='row'>
+            <div id="warzone" class='col'>
+              <div class='counterCard'>
+                <div class='cardBody'></div>
+                  <div id="card-header">Warzone Victories</div>
+                  <div id='body'>
+                    
+                    <div class="waviy">
+                      <p>Total</p>
+                      <span style='--i :1'>{{points.warzone}}</span>
                     </div>
+                    <div class="mt-5 pt-5"  @click="addPoint('warzone')">
+                      <WarzoneButton/>
+                    </div>
+                    
+                    
                   </div>
-                </div>
-                
+                  
+              </div>
             </div>
-          </div>
-          <div id="fallguys" class='col'>
-          <div class='counterCard'>
-              <div class='cardBody'></div>
-                <div id="card-header-fall">Fall Guys Victories</div>
-                <div id='body'>
-                  <div class="waviy">
-                    <p>Total</p>
-                    <span style='--i :1'>{{points.fallguys}}</span>
-  
+            <div id="fallguys" class='col'>
+            <div class='counterCard'>
+                <div class='cardBody'></div>
+                  <div id="card-header-fall">Fall Guys Victories</div>
+                  <div id='body'>
+                    <div class="waviy">
+                      <p>Total</p>
+                      <span style='--i :1'>{{points.fallguys}}</span>
+    
 
+                    </div>
+                    <div class="mt-5 pt-5" @click="addPoint('fallguys')">
+                        <FallGuysButton/>
+                    </div>
+                    
+                    
                   </div>
-                </div>
-                
+                  
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <div id="login" class="col">
-        <div class='counterCard'>
-                <div class='cardBody'></div>
-                  <div id="card-header-login" >Come on in</div>
-                  <div id='body-login'>
+      <div v-else>
+        <div id="login" class="col">
+          <div class='counterCardLogin'>
+                  <div class='cardBody'></div>
+                    <div id="card-header-login" >Come on in</div>
+                    <div id='body-login'>
+                      
+                      <form @submit.prevent="userLogin" class="mt-4">
+                          <div class="a-box a-spacing-extra-large">
+                              <div class="a-box-inner">
+                                  <h1 class="a-spacing-small">Login Better Be Correct...</h1>
+
+                                  <!--- Your Email --->
+                                  <div class="a-row a-spacing-base">
+                                      <label for="email" class="a-form-label">User Name</label>
+                                      <input v-model="username" type="text" name="email"
+                                          id="email" 
+                                          class="a-input-text form-control auth-authofocus auth-required-field auth-contact-verification-request-info" >
+                                  </div>
+                                  <!--- Your Password --->
+                                  <div class="a-row a-spacing-base">
+                                      <label for="password" class="a-form-label">Password</label>
+                                      <input v-model="password" name="password" type="password"
+                                          id="password" 
+                                          class="a-input-text form-control auth-authofocus auth-required-field auth-contact-verification-request-info" >
+                                  </div>
+                                  <!---- Button --->
+                                  <div class="a-row a-spacing-extra-large mb-4">
+                                      <div class="a-row a-spacing-extra-large mb-4">
+                                          <span class="mt-5">
+                                            <button type="submit" class="button-49 mt-5" role="button">Login</button>
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <hr>
+
+                              </div>
+                          </div>
+                      </form>
+                    </div>
                     
-                    <form @submit.prevent="userLogin" class="mt-4">
-                        <div class="a-box a-spacing-extra-large">
-                            <div class="a-box-inner">
-                                <h1 class="a-spacing-small">Login Better Be Correct...</h1>
+                </div>        
+        </div>
 
-                                <!--- Your Email --->
-                                <div class="a-row a-spacing-base">
-                                    <label for="email" class="a-form-label">User Name</label>
-                                    <input v-model="username" type="text" name="email"
-                                        id="email" 
-                                        class="a-input-text form-control auth-authofocus auth-required-field auth-contact-verification-request-info" >
-                                </div>
-                                <!--- Your Password --->
-                                <div class="a-row a-spacing-base">
-                                    <label for="password" class="a-form-label">Password</label>
-                                    <input v-model="password" name="password" type="password"
-                                        id="password" 
-                                        class="a-input-text form-control auth-authofocus auth-required-field auth-contact-verification-request-info" >
-                                </div>
-                                <!---- Button --->
-                                <div class="a-row a-spacing-extra-large mb-4">
-                                    <div class="a-row a-spacing-extra-large mb-4">
-                                        <span class="mt-5">
-                                          <button type="submit" class="button-49 mt-5" role="button">Login</button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <hr>
-
-                            </div>
-                        </div>
-                    </form>
-                  </div>
-                  
-              </div>        
       </div>
+      <NavBar v-if="$auth.$state.loggedIn" />
 
     </div>
 
-
-    </div>
+  
 </template>
 
 <script>
-import res from 'express/lib/response'
+import FallGuysButton from '../components/FallGuysButton.vue'
+import WarzoneButton from '../components/WarzoneButton.vue'
+import NavBar from '../components/NavBar.vue'
 
 export default {
   name: 'IndexPage',
   middleware: "auth",
     auth: "guest",
+    components: {
+    FallGuysButton,
+    WarzoneButton,
+    NavBar
+},
     async asyncData({$axios}) {
       let response = await $axios.$get('http://localhost:7000/icenarc/points')
-      console.log(response.points[0])
       return {
         points: response.points[0]
       }
@@ -128,13 +142,30 @@ export default {
                 console.log(err)
                 return
             }
+        },
+        async addPoint(pointType) {
+          console.log(pointType)
+          if(pointType === "fallguys") {
+            let response = await this.$axios.$post('http://localhost:7000/icenarc/addpoint', {pointType: "fallguys"})
+            let newPoints = response.points.fallguys
+            await this.points.fallguys == null;
+            await this.points.fallguys == newPoints
+            await this.$router.push(`/victoryCelebration/${newPoints}`)
+            console.log(this.points)
+          } else {
+            let response = await this.$axios.$post('http://localhost:7000/icenarc/addpoint', {pointType: "warzone"})
+            let newPoints = response.points.warzone
+            await this.points.warzone == null;
+            await this.points.warzone == newPoints
+            await this.$router.push(`/victoryCelebration/${newPoints}`)
+          }
         }
     }
 }
 </script>
 
-<style>
-  .App {
+<style scoped>
+.App {
   text-align: center;
 }
 
@@ -142,9 +173,6 @@ export default {
   height: 40vmin;
   pointer-events: none;
 }
-
-
-
 
 .App-header {
   background-color: #282c34;
@@ -172,6 +200,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);
 }
 #fallguys {
   height: 100vh;
@@ -210,7 +239,16 @@ export default {
 }
 
 .counterCard {
-  height: 60vh;
+  height: 40vh;
+  width: 20vw;
+  background-color: rgba(7, 69, 69, 0.9);
+  border-radius: 20px;
+  font-family: countach, sans-serif;
+  font-weight: bold;
+  color: white
+}
+.counterCardLogin {
+  height: 50vh;
   width: 20vw;
   background-color: rgba(7, 69, 69, 0.9);
   border-radius: 20px;
@@ -258,12 +296,6 @@ export default {
     transform: translateY(-20px)
   }
 }
-
-
-
-
-
-
 /* CSS */
 .button-49,
 .button-49:after {
@@ -364,136 +396,4 @@ export default {
     line-height: 88px;
   }
 }
-
-
-
-
-div[class*=box] {
-	height: 33.33%;
-	width: 100%; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.box-1 { background-color: #FF6766; }
-.box-2 { background-color: none; }
-.box-3 { background-color: #66A182; }
-
-.btn {
-	line-height: 50px;
-	height: 50px;
-	text-align: center;
-	width: 250px;
-	cursor: pointer;
-}
-
-/* 
-========================
-      BUTTON ONE
-========================
-*/
-.btn-one {
-	color: #FFF;
-	transition: all 0.3s;
-	position: relative;
-}
-.btn-one span {
-	transition: all 0.3s;
-}
-.btn-one::before {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-	opacity: 0;
-	transition: all 0.3s;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-top-style: solid;
-	border-bottom-style: solid;
-	border-top-color: rgba(255,255,255,0.5);
-	border-bottom-color: rgba(255,255,255,0.5);
-	transform: scale(0.1, 1);
-}
-.btn-one:hover span {
-	letter-spacing: 2px;
-}
-.btn-one:hover::before {
-	opacity: 1;	
-	transform: scale(1, 1);	
-}
-.btn-one::after {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-	transition: all 0.3s;
-	background-color: rgba(255,255,255,0.1);
-}
-.btn-one:hover::after {
-	opacity: 0;	
-	transform: scale(0.1, 1);
-}
-
-
-/* 
-========================
-      BUTTON TWO
-========================
-*/
-.btn-two {
-	color: #FFF;
-	transition: all 0.5s;
-	position: relative;	
-}
-.btn-two span {
-	z-index: 2;	
-	display: block;
-	position: absolute;
-	width: 100%;
-	height: 100%;	
-  margin: auto;
-  color: white;
-}
-.btn-two::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-	transition: all 0.5s;
-	border: 1px solid rgba(255,255,255,0.2);
-	background-color: rgba(255,255,255,0.1);
-}
-.btn-two::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 1;
-	transition: all 0.5s;
-	border: 1px solid rgba(255,255,255,0.2);
-	background-color: rgba(255,255,255,0.1);
-}
-.btn-two:hover::before {
-  transform: rotate(-45deg);
-  background-color: rgba(255,255,255,0);
-}
-.btn-two:hover::after {
-  transform: rotate(45deg);
-  background-color: rgba(255,255,255,0);
-}
-
-
 </style>

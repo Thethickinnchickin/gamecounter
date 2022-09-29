@@ -10,7 +10,6 @@ mongoose.connect(
     'mongodb+srv://mattreiley:TomBrady12@cluster0.pzaxlko.mongodb.net/?retryWrites=true&w=majority',
     {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
         if (err) {
-            console.log($PORT)
             console.log(err)
         } else {
             console.log("You have connected to the database");
