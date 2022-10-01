@@ -12,10 +12,18 @@
                   <div id='body'>
                     
                     <div class="waviy">
-                      <p>Total</p>
-                      <span style='--i :1'>{{points.warzone}}</span>
+                      <p class="pt-3">Fall 2021</p>
+                      <span style='--i :1'>{{warzoneFall2021}}</span>
                     </div>
-                    <div class="mt-5 pt-5"  @click="addPoint('warzone')">
+                    <div class="waviy">
+                      <p>Spring 2022</p>
+                      <span style='--i :1'>{{warzoneSpring2022}}</span>
+                    </div>
+                    <div class="waviy">
+                      <p>Fall 2022</p>
+                      <span style='--i :1'>{{warzoneFall2022}}</span>
+                    </div>
+                    <div class="mt-5"  @click="addPoint('warzone')">
                       <WarzoneButton/>
                     </div>
                     
@@ -25,17 +33,17 @@
               </div>
             </div>
             <div id="fallguys" class='col'>
-            <div class='counterCard'>
+            <div class='counterCard-fall'>
                 <div class='cardBody'></div>
                   <div id="card-header-fall">Fall Guys Victories</div>
                   <div id='body'>
                     <div class="waviy">
-                      <p>Total</p>
-                      <span style='--i :1'>{{points.fallguys}}</span>
+                      <p class="pt-3">Fall 2022</p>
+                      <span style='--i :1'>{{fallGuysFall2022}}</span>
     
 
                     </div>
-                    <div class="mt-5 pt-5" @click="addPoint('fallguys')">
+                    <div class="mt-5" @click="addPoint('fallguys')">
                         <FallGuysButton/>
                     </div>
                     
@@ -115,9 +123,38 @@ export default {
     NavBar
 },
     async asyncData({$axios}) {
-      let response = await $axios.$get('http://localhost:7000/icenarc/points')
+      let response = await $axios.$get('http://localhost:7000/icenarc/points');
+      let warzoneFall2021;
+      let warzoneSpring2022;
+      let warzoneFall2022;
+      let fallGuysFall2022;
+      for(let season of response.points[0].warzone) {
+        switch(season.name) {
+          case 'Fall, 2021': 
+            warzoneFall2021 = season.wins;
+            break;
+          case 'Spring, 2022': 
+            warzoneSpring2022 = season.wins;
+            break;
+          case 'Fall, 2022': 
+            warzoneFall2022 = season.wins;
+            break;
+          default:
+            break;
+        }
+
+      }
+      for(let season of response.points[0].fallguys) {
+        if(season.name === 'Fall Guys, 2022') {
+          fallGuysFall2022 = season.wins
+        }
+      }
+      
       return {
-        points: response.points[0]
+        warzoneFall2021,
+        warzoneSpring2022,
+        warzoneFall2022,
+        fallGuysFall2022
       }
     },  
     data() {
@@ -145,19 +182,14 @@ export default {
             }
         },
         async addPoint(pointType) {
-          console.log(pointType)
           if(pointType === "fallguys") {
             let response = await this.$axios.$post('http://localhost:7000/icenarc/addpoint', {pointType: "fallguys"})
-            let newPoints = response.points.fallguys
-            await this.points.fallguys == null;
-            await this.points.fallguys == newPoints
+            let newPoints = response.wins
             await this.$router.push(`/victoryCelebration/${newPoints}`)
-            console.log(this.points)
           } else {
             let response = await this.$axios.$post('http://localhost:7000/icenarc/addpoint', {pointType: "warzone"})
-            let newPoints = response.points.warzone
-            await this.points.warzone == null;
-            await this.points.warzone == newPoints
+
+            let newPoints = response.wins
             await this.$router.push(`/victoryCelebration/${newPoints}`)
           }
         }
@@ -240,13 +272,28 @@ export default {
 }
 
 .counterCard {
-  height: 40vh;
+  height: 60vh;
   width: 20vw;
   background-color: rgba(7, 69, 69, 0.9);
   border-radius: 20px;
   font-family: countach, sans-serif;
   font-weight: bold;
   color: white
+}
+
+.counterCard-fall {
+  height: 35vh;
+  width: 20vw;
+  background-color: rgba(7, 69, 69, 0.9);
+  border-radius: 20px;
+  font-family: countach, sans-serif;
+  font-weight: bold;
+  color: white
+}
+
+
+p {
+  font-size: 25px;
 }
 .counterCardLogin {
   height: 50vh;

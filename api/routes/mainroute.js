@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/user');
 const Points = require('../models/points');
+const Seasons = require('../models/season');
 const jwt = require('jsonwebtoken')
 const verifyToken = require('../middleware/verify-token')
 
@@ -78,7 +79,7 @@ router.post('/auth/user/signup', async (req, res) => {
 
 //Getting Points
 router.get('/points', async(req, res) => {
-    const points = await Points.find().limit(1).exec();
+    const points = await Points.find().limit(0).populate('warzone').populate('fallguys').exec();
 
     res.json({
         success: true,
@@ -88,20 +89,37 @@ router.get('/points', async(req, res) => {
 
 //adding points 
 router.post('/addpoint', async(req, res) => {
-    let point = await Points.findById('6333dd079a929daad574d90c').exec();
+    let pointId = '63361e34c1b91fa00bae3115'
+    let point = await Points.findById(pointId).populate('warzone').populate('fallguys').exec();
+    let wins;
     if(req.body.pointType === 'warzone') {
-        point.warzone ++;
+        for(let warzoneseason of point.warzone) {
+            if(warzoneseason.name === 'Fall, 2022') {
+                warzoneseason.wins ++;
+                wins = warzoneseason.wins;
+                await warzoneseason.save()
+            }
+        }
+
         await point.save();
         res.json({
             success: true,
-            points: point
+            points: point,
+            wins: wins
         })
     } else if(req.body.pointType === 'fallguys') {
-        point.fallguys ++;
+        for(let fallguysseason of point.fallguys) {
+            if(fallguysseason.name === 'Fall Guys, 2022') {
+                fallguysseason.wins ++;
+                wins = fallguysseason.wins;
+                await fallguysseason.save()
+            }
+        }
         await point.save();
         res.json({
             success: true,
-            points: point
+            points: point,
+            wins: wins
         })
     } else {
         res.json({
@@ -112,14 +130,44 @@ router.post('/addpoint', async(req, res) => {
 })
 
 // router.post('/points', async(req, res) => {
+   
 //     let points = new Points();
-//     points.warzone = 0;
-//     points.fallguys = 0;
+//     let fall2021 = new Seasons({
+//         name: 'Fall, 2021',
+//         wins: 63,
+//         pointsId: points._id
+//     })
+//     let spring2022 = new Seasons({
+//         name: 'Spring, 2022',
+//         wins: 34,
+//         pointsId: points._id
+//     })
+//     let fall2022 = new Seasons({
+//         name: 'Fall, 2022',
+//         wins: 9,
+//         pointsId: points._id
+//     })
+//     let fallguys2022 = new Seasons({
+//        name: 'Fall Guys, 2022',
+//        wins: 8,
+//        pointsId: points._id
+//     })
+//     await fall2021.save();
+//     await spring2022.save();
+//     await fall2022.save();
+//     await fallguys2022.save();
+//     points.warzone.push(fall2021);
+//     points.warzone.push(spring2022);
+//     points.warzone.push(fall2022);
+//     points.fallguys.push(fallguys2022);
 //     points.ID = 1;
+
 //     await points.save()
 //     res.json({
 //         points: points
 //     })
 // })
+
+
 
 module.exports = router;

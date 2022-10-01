@@ -2,8 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const pointsSchema = new Schema({
-    warzone: Number,
-    fallguys: Number,
+    warzone: [{
+        type: Schema.ObjectId,
+        ref: 'Season'
+    }],
+    fallguys: [{
+        type: Schema.ObjectId,
+        ref: 'Season'
+    }],
     ID: Number
 });
 
