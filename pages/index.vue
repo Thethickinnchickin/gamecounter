@@ -4,12 +4,23 @@
     <div class="App">
       <div v-if="$auth.$state.loggedIn">
         <div class="App-header">
+          
           <div class='row'>
             <div id="warzone" class='col'>
+              <div class="counterCard-names mb-3">
+                <div id="card-header" class="mb-3">GamerTag HOF</div>
+                <div class="pt-3" >
+                  <TypingDiv />
+                </div>
+                 
+              </div>
+           
+
               <div class='counterCard'>
                 <div class='cardBody'></div>
                   <div id="card-header">Warzone Victories</div>
                   <div id='body'>
+                    
                     
                     <div class="waviy">
                       <p class="pt-3">Fall 2021</p>
@@ -112,6 +123,7 @@
 import FallGuysButton from '../components/FallGuysButton.vue'
 import WarzoneButton from '../components/WarzoneButton.vue'
 import NavBar from '../components/NavBar.vue'
+import TypingDiv from '../components/typingDiv.vue'
 
 export default {
   name: 'IndexPage',
@@ -120,7 +132,8 @@ export default {
     components: {
     FallGuysButton,
     WarzoneButton,
-    NavBar
+    NavBar,
+    TypingDiv
 },
     async asyncData({$axios}) {
       let response = await $axios.$get('http://localhost:7000/icenarc/points');
@@ -197,6 +210,8 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
 .App {
   text-align: center;
@@ -272,9 +287,18 @@ export default {
 }
 
 .counterCard {
-  height: 60vh;
+  height: 50vh;
   width: 20vw;
   background-color: rgba(7, 69, 69, 0.9);
+  border-radius: 20px;
+  font-family: countach, sans-serif;
+  font-weight: bold;
+  color: white
+}
+.counterCard-names {
+  height: 15vh;
+  width: 20vw;
+  background-color: black;
   border-radius: 20px;
   font-family: countach, sans-serif;
   font-weight: bold;
@@ -318,7 +342,7 @@ p {
 .waviy {
   position: relative;
   -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
-  font-size: 60px;
+  font-size: 30px;
 }
 .waviy span {
   position: relative;
