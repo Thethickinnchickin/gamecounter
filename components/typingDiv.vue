@@ -11,7 +11,7 @@ $strings: (
   "Bobby Light"
   "McLovin"
   "BOATZ-ND-HOEZ"
-  "(U NOT) ThatGuy" 
+  "(UR NOT) ThatGuy" 
   "HaywoodJaBlowMe"
   "Ray Rice"
   "WestValleyRidah"
